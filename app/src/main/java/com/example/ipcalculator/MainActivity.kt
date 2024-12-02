@@ -6,12 +6,15 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.TableLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,22 +24,25 @@ class MainActivity : AppCompatActivity() {
 
         val botaoCalcular: Button = findViewById(R.id.button)
         val progressCircle: ProgressBar = findViewById(R.id.progressBar)
+        val tableLayout: TableLayout = findViewById(R.id.tableLayout)
         val editTextIP: EditText = findViewById(R.id.editTextIP)
         val editTextMascara: EditText = findViewById(R.id.editTextMask)
 
         // Configurar o evento de clique do botão
         botaoCalcular.setOnClickListener {
             val ip = editTextIP.text.toString()
+            val mask = editTextMascara.text.toString()
 
-            if (isValidIp(ip)) {
-                Toast.makeText(this, "IP Válido", Toast.LENGTH_SHORT).show()
-                // Mostrar a barra de progresso
+            if (isValidIp(ip) && isValidIp(mask)) {
+                // Mostrar a barra de progresso e ocultar tabela
+                tableLayout.visibility = TableLayout.GONE
                 progressCircle.visibility = ProgressBar.VISIBLE
 
                 // Iniciar a tarefa assíncrona
-                iniciarTarefaAssincrona(progressCircle)
+                iniciarTarefaAssincrona(progressCircle, tableLayout)
+
             } else {
-                Toast.makeText(this, "IP Inválido", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "IP ou Máscara Inválidos", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -190,21 +196,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Função para rodar a tarefa assíncrona
-    private fun iniciarTarefaAssincrona(progressCircle: ProgressBar) {
+    private fun iniciarTarefaAssincrona(progressCircle: ProgressBar, tableLayout: TableLayout) {
         CoroutineScope(Dispatchers.Default).launch {
             // Chama a função assíncrona e aguarda a conclusão
             loading()
 
-            // Após a conclusão da tarefa, oculta a barra de progresso
-            progressCircle.visibility = ProgressBar.INVISIBLE
+            withContext(Dispatchers.Main) {
+                // Após a conclusão da tarefa, oculta a barra de progresso
+                progressCircle.visibility = ProgressBar.GONE
+                delay(200) // Simula algum atraso, se necessário
+                tableLayout.visibility = TableLayout.VISIBLE
+            }
         }
     }
 
     // Função suspensa que simula a execução de uma tarefa
     suspend fun loading() {
-        for (num in 0..100) {
+        for (num in 0..10) {
             println("Progresso: $num")
-            delay(100) // Simula o progresso de 100 etapas com 100ms de delay
+            delay(200) // Simula o progresso de 100 etapas com 100ms de delay
         }
     }
 
