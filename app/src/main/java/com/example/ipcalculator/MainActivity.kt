@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TableLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
@@ -18,6 +19,16 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
+    private var ipClass: String = ""
+    private var networkAddress: String = ""
+    private var firstHost: String = ""
+    private var lastHost: String = ""
+    private var broadcast: String = ""
+    private var ipAvailability: String = ""
+    private var numberOfSubNetworks: Int = 0
+    private var hostsBySubNetwork: Int = 0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         val tableLayout: TableLayout = findViewById(R.id.tableLayout)
         val editTextIP: EditText = findViewById(R.id.editTextIP)
         val editTextMascara: EditText = findViewById(R.id.editTextMask)
+
+
 
         // Configurar o evento de clique do botão
         botaoCalcular.setOnClickListener {
@@ -39,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                 progressCircle.visibility = ProgressBar.VISIBLE
 
                 // Iniciar a tarefa assíncrona
-                iniciarTarefaAssincrona(progressCircle, tableLayout)
+                startTask(ip, mask, progressCircle, tableLayout)
 
             } else {
                 Toast.makeText(this, "IP ou Máscara Inválidos", Toast.LENGTH_SHORT).show()
@@ -196,26 +209,54 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Função para rodar a tarefa assíncrona
-    private fun iniciarTarefaAssincrona(progressCircle: ProgressBar, tableLayout: TableLayout) {
+    private fun startTask(ip: String, mask: String, progressCircle: ProgressBar, tableLayout: TableLayout) {
         CoroutineScope(Dispatchers.Default).launch {
-            // Chama a função assíncrona e aguarda a conclusão
-            loading()
+
+            loadingData(ip,mask)
 
             withContext(Dispatchers.Main) {
+
+                val ipAddress: TextView = findViewById(R.id.ip_address)
+                val netmask: TextView = findViewById(R.id.mask)
+                val networkAddressTextView: TextView = findViewById(R.id.network_address)
+                val firstHostTextView: TextView = findViewById(R.id.first_host)
+                val lastHostTextView: TextView = findViewById(R.id.last_host)
+                val broadcastTextView: TextView = findViewById(R.id.broadcast)
+                val ipClassTextView: TextView = findViewById(R.id.ip_class)
+                val numberOfSubNetworksTextView: TextView = findViewById(R.id.sub_network_number)
+                val hostsBySubNetworkTextView: TextView = findViewById(R.id.hosts_by_sub_network)
+                val ipAvailableTextView: TextView = findViewById(R.id.ip_availability)
+
+                // Preencher os campos com os resultados
+                ipAddress.text = ip
+                netmask.text = mask
+                networkAddressTextView.text = networkAddress
+                firstHostTextView.text = firstHost
+                lastHostTextView.text = lastHost
+                broadcastTextView.text = broadcast
+                ipClassTextView.text = ipClass
+                numberOfSubNetworksTextView.text = numberOfSubNetworks.toString()
+                hostsBySubNetworkTextView.text = hostsBySubNetwork.toString()
+                ipAvailableTextView.text = ipAvailability
+
                 // Após a conclusão da tarefa, oculta a barra de progresso
                 progressCircle.visibility = ProgressBar.GONE
-                delay(200) // Simula algum atraso, se necessário
+                delay(1000) // Simula algum atraso, se necessário
                 tableLayout.visibility = TableLayout.VISIBLE
             }
         }
     }
 
-    // Função suspensa que simula a execução de uma tarefa
-    suspend fun loading() {
-        for (num in 0..10) {
-            println("Progresso: $num")
-            delay(200) // Simula o progresso de 100 etapas com 100ms de delay
-        }
+    private suspend fun loadingData(ip: String, mask: String){
+        ipClass = Calculator.getIPClass(ip)
+        networkAddress = Calculator.calculateNetwork(ip, mask)
+        firstHost = Calculator.calculateFirstHost(networkAddress)
+        broadcast = Calculator.calculateBroadcast(ip, mask).toString()
+        lastHost = Calculator.calculateLastHost(broadcast)
+        numberOfSubNetworks = Calculator.getNumberOfSubNetwork(mask)
+        hostsBySubNetwork = Calculator.getNumberOfHostsBySubNetwork(mask)
+        ipAvailability = Calculator.ipAvailability(ip)
+        delay(3000)
     }
 
     // Função para validar o formato de um endereço IP
@@ -229,4 +270,8 @@ class MainActivity : AppCompatActivity() {
         }
         return false
     }
+
+
+
+
 }
