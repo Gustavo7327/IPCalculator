@@ -7,6 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/title"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- EditText para Máscara -->
     <EditText
         android:id="@+id/editTextMask"
         android:layout_width="wrap_content"
@@ -16,49 +30,37 @@
         android:background="@drawable/rounded"
         android:ems="10"
         android:inputType="text"
-        android:hint="Ex: 255.255.255.0"
+        android:hint="@string/mask_example"
         android:maxLength="15"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:layout_constraintVertical_bias="0.0" />
 
+    <!-- TextView para Máscara -->
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:textSize="16sp"
-        android:text="Digite a Mascara"
-        android:labelFor="@+id/editTextMask"
+        android:text="@string/label_mask"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.326"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextIP" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="IP Calculator"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    <!-- EditText para IP -->
     <EditText
         android:id="@+id/editTextIP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:autofillHints=""
         android:background="@drawable/rounded"
         android:ems="10"
-        android:hint="Ex: 192.168.0.1"
+        android:hint="@string/ip_example"
         android:maxLength="15"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,40 +68,216 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+    <!-- TextView para IP -->
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:labelFor="@id/editTextIP"
-        android:text="Digite o IP"
+        android:text="@string/label_ip"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.28"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+    <!-- Botão -->
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-
-        android:text="Calcular"
+        android:text="@string/button_text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextMask" />
 
+    <!-- ProgressBar -->
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="211dp"
         android:layout_height="133dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- TableLayout para os Resultados -->
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_margin="8dp"
+        android:background="@drawable/border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TableRow android:padding="8dp" android:background="@drawable/border">
+            <TextView
+                android:text="@string/ip_address"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/vertical_bar" />
+            <TextView
+                android:id="@+id/ip_address"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"/>
+        </TableRow>
+
+        <TableRow android:padding="8dp" android:background="@drawable/border">
+            <TextView
+                android:text="@string/mask"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/vertical_bar" />
+            <TextView
+                android:id="@+id/mask"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"/>
+        </TableRow>
+
+        <TableRow android:padding="8dp" android:background="@drawable/border">
+            <TextView
+                android:text="@string/network_address"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/vertical_bar" />
+            <TextView
+                android:id="@+id/network_address"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"/>
+        </TableRow>
+
+        <TableRow android:padding="8dp" android:background="@drawable/border">
+            <TextView
+                android:text="@string/first_host"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/vertical_bar" />
+            <TextView
+                android:id="@+id/first_host"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"/>
+        </TableRow>
+
+        <TableRow android:padding="8dp" android:background="@drawable/border">
+            <TextView
+                android:text="@string/last_host"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/vertical_bar" />
+            <TextView
+                android:id="@+id/last_host"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"/>
+        </TableRow>
+
+        <TableRow android:padding="8dp" android:background="@drawable/border">
+            <TextView
+                android:text="@string/broadcast"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/vertical_bar" />
+            <TextView
+                android:id="@+id/broadcast"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"/>
+        </TableRow>
+
+        <TableRow android:padding="8dp" android:background="@drawable/border">
+            <TextView
+                android:text="@string/ip_class"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/vertical_bar" />
+            <TextView
+                android:id="@+id/ip_class"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"/>
+        </TableRow>
+
+        <TableRow android:padding="8dp" android:background="@drawable/border">
+            <TextView
+                android:text="@string/sub_network_number"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/vertical_bar" />
+            <TextView
+                android:id="@+id/sub_network_number"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"/>
+        </TableRow>
+
+        <TableRow android:padding="8dp" android:background="@drawable/border">
+            <TextView
+                android:text="@string/hosts_by_sub_network"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/vertical_bar" />
+            <TextView
+                android:id="@+id/hosts_by_sub_network"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"/>
+        </TableRow>
+
+        <TableRow android:padding="8dp" android:background="@drawable/border">
+            <TextView
+                android:text="@string/ip_availability"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/vertical_bar" />
+            <TextView
+                android:id="@+id/ip_availability"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"/>
+        </TableRow>
+
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
