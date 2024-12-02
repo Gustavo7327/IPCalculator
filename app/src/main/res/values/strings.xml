@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">IPCalculator</string>
+    <string name="mask_example">Ex: 255.255.255.0</string>
+    <string name="label_mask">Digite a Máscara</string>
+    <string name="label_ip">Digite o IP</string>
+    <string name="ip_example">Ex: 192.168.0.1</string>
+    <string name="title">Calculadora IP</string>
+    <string name="button_text">Calcular</string>
+    
+    <string name="ip_address">Endereço IP</string>
+    <string name="mask">Máscara de Sub-rede</string>
+    <string name="network_address">Endereço de Rede</string>
+    <string name="first_host">Primeiro Host</string>
+    <string name="last_host">Último Host</string>
+    <string name="broadcast">Endereço de Broadcast</string>
+    <string name="ip_class">Classe do Endereço IP</string>
+    <string name="sub_network_number">Número de Sub-redes</string>
+    <string name="hosts_by_sub_network">Hosts por Sub-rede</string>
+    <string name="ip_availability">Endereço Público/Privado</string>
+
 </resources>
