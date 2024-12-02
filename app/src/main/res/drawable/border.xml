@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/white" /> <!-- Cor de fundo da célula -->
+    <stroke android:color="#000000" android:width="2dp"/> <!-- Cor e espessura da borda -->
+    <corners android:radius="4dp"/> <!-- Cantos arredondados (opcional) -->
+</shape>
