@@ -5,6 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/back"
+    android:foregroundTint="#6456B7"
     tools:context=".MainActivity">
 
     <TextView
@@ -14,6 +16,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/title"
+        android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -29,9 +32,10 @@
         android:autofillHints=""
         android:background="@drawable/rounded"
         android:ems="10"
-        android:inputType="text"
         android:hint="@string/mask_example"
+        android:inputType="text"
         android:maxLength="15"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,8 +48,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:textSize="16sp"
         android:text="@string/label_mask"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.326"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,8 +66,9 @@
         android:background="@drawable/rounded"
         android:ems="10"
         android:hint="@string/ip_example"
-        android:maxLength="15"
         android:inputType="text"
+        android:maxLength="15"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="@string/label_ip"
+        android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.28"
@@ -87,7 +94,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:backgroundTint="#6456B7"
         android:text="@string/button_text"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,185 +108,258 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="211dp"
         android:layout_height="133dp"
-        android:visibility="gone"
+        android:foregroundTint="#673AB7"
+        android:progressTint="@color/button"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <!-- TableLayout para os Resultados -->
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_margin="8dp"
         android:background="@drawable/border"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/button">
 
-        <TableRow android:padding="8dp" android:background="@drawable/border">
+        <TableRow
+            android:background="@drawable/border"
+            android:padding="8dp">
+
             <TextView
                 android:text="@string/ip_address"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/vertical_bar" />
+
             <TextView
                 android:id="@+id/ip_address"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </TableRow>
 
-        <TableRow android:padding="8dp" android:background="@drawable/border">
+        <TableRow
+            android:background="@drawable/border"
+            android:padding="8dp">
+
             <TextView
                 android:text="@string/mask"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/vertical_bar" />
+
             <TextView
                 android:id="@+id/mask"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </TableRow>
 
-        <TableRow android:padding="8dp" android:background="@drawable/border">
+        <TableRow
+            android:background="@drawable/border"
+            android:padding="8dp">
+
             <TextView
                 android:text="@string/network_address"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/vertical_bar" />
+
             <TextView
                 android:id="@+id/network_address"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </TableRow>
 
-        <TableRow android:padding="8dp" android:background="@drawable/border">
+        <TableRow
+            android:background="@drawable/border"
+            android:padding="8dp">
+
             <TextView
                 android:text="@string/first_host"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/vertical_bar" />
+
             <TextView
                 android:id="@+id/first_host"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </TableRow>
 
-        <TableRow android:padding="8dp" android:background="@drawable/border">
+        <TableRow
+            android:background="@drawable/border"
+            android:padding="8dp">
+
             <TextView
                 android:text="@string/last_host"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/vertical_bar" />
+
             <TextView
                 android:id="@+id/last_host"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </TableRow>
 
-        <TableRow android:padding="8dp" android:background="@drawable/border">
+        <TableRow
+            android:background="@drawable/border"
+            android:padding="8dp">
+
             <TextView
                 android:text="@string/broadcast"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/vertical_bar" />
+
             <TextView
                 android:id="@+id/broadcast"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </TableRow>
 
-        <TableRow android:padding="8dp" android:background="@drawable/border">
+        <TableRow
+            android:background="@drawable/border"
+            android:padding="8dp">
+
             <TextView
                 android:text="@string/ip_class"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/vertical_bar" />
+
             <TextView
                 android:id="@+id/ip_class"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </TableRow>
 
-        <TableRow android:padding="8dp" android:background="@drawable/border">
+        <TableRow
+            android:background="@drawable/border"
+            android:padding="8dp">
+
             <TextView
                 android:text="@string/sub_network_number"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/vertical_bar" />
+
             <TextView
                 android:id="@+id/sub_network_number"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </TableRow>
 
-        <TableRow android:padding="8dp" android:background="@drawable/border">
+        <TableRow
+            android:background="@drawable/border"
+            android:padding="8dp">
+
             <TextView
                 android:text="@string/hosts_by_sub_network"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/vertical_bar" />
+
             <TextView
                 android:id="@+id/hosts_by_sub_network"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </TableRow>
 
-        <TableRow android:padding="8dp" android:background="@drawable/border">
+        <TableRow
+            android:background="@drawable/border"
+            android:padding="8dp">
+
             <TextView
                 android:text="@string/ip_availability"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/vertical_bar" />
+
             <TextView
                 android:id="@+id/ip_availability"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </TableRow>
 
     </TableLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
