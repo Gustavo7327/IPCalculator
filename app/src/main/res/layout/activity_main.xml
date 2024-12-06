@@ -110,7 +110,7 @@
         android:layout_height="133dp"
         android:foregroundTint="#673AB7"
         android:progressTint="@color/button"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
