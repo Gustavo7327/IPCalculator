@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         val editTextMascara: EditText = findViewById(R.id.editTextMask)
 
 
-
         // Configurar o evento de clique do botão
         botaoCalcular.setOnClickListener {
             val ip = editTextIP.text.toString()
@@ -71,65 +70,44 @@ class MainActivity : AppCompatActivity() {
                 // Desabilitar temporariamente o TextWatcher para evitar loops recursivos
                 editTextIP.removeTextChangedListener(this)
 
-                // Impedir que o primeiro caractere seja um ponto
-                if (inputText.startsWith(".")) {
-                    editable?.replace(0, 1, "") // Remove o ponto do início
+                // 1. Remover caracteres inválidos
+                val sanitizedInput = inputText.replace(Regex("[^0-9.]"), "").removePrefix(".")
+
+                // 2. Remover múltiplos pontos consecutivos
+                val noDoubleDots = sanitizedInput.replace(Regex("\\.{2,}"), ".")
+
+                // 3. Garantir no máximo 3 pontos
+                val dotCount = noDoubleDots.count { it == '.' }
+                val limitedDots = if (dotCount > 3) {
+                    noDoubleDots.split(".").take(4).joinToString(".")
+                } else {
+                    noDoubleDots
                 }
 
-                // Verificar e evitar dois pontos consecutivos
-                if (inputText.contains("..")) {
-                    // Encontrou dois pontos consecutivos, remover o segundo ponto
-                    val index = inputText.indexOf("..")
-                    editable?.replace(index, index + 2, ".")
+                // 4. Validar octetos (máximo 255)
+                val parts = limitedDots.split(".")
+                val correctedParts = parts.map { part ->
+                    part.toIntOrNull()?.let { if (it > 255) "255" else it.toString() } ?: ""
                 }
 
-                // Restringir a entrada para apenas números e pontos
-                if (inputText.contains(Regex("[^0-9.]"))) {
-                    editable?.replace(0, editable.length, inputText.replace(Regex("[^0-9.]"), ""))
+                // 5. Reconstruir o texto válido
+                val validText = correctedParts.joinToString(".")
+
+                // 6. Aplicar ponto automaticamente após 3 números (se válido)
+                val lastPart = correctedParts.lastOrNull()
+                val autoDotText = if (lastPart != null && lastPart.length == 3 && correctedParts.size < 4) {
+                    "$validText."
+                } else {
+                    validText
                 }
 
-                // Contar a quantidade de pontos no texto
-                val dotCount = inputText.count { it == '.' }
-
-                // Impedir mais de 3 pontos
-                if (dotCount > 3) {
-                    // Se houver mais de 3 pontos, remover o último ponto inserido
-                    editable?.replace(inputText.length - 1, inputText.length, "")
-                }
-
-                // Verificar a quantidade de octetos e impedir mais de três
-                val parts = inputText.split(".")
-                if (parts.size > 4) {
-                    // Se houver mais de 4 partes (contando com os octetos e os pontos), remova o último caractere inserido
-                    editable?.replace(inputText.length - 1, inputText.length, "")
-                }
-
-                // Verificar se algum octeto é maior que 255
-                val invalidPartIndex = parts.indexOfFirst { it.toIntOrNull()?.let { it > 255 } == true }
-                if (invalidPartIndex != -1) {
-                    // Se algum octeto for maior que 255, substituir o octeto inválido por 255
-                    val correctedText = parts.mapIndexed { index, part ->
-                        if (index == invalidPartIndex) {
-                            "255"  // Substitui o octeto inválido por 255
-                        } else {
-                            part
-                        }
-                    }.joinToString(".")
-
-                    // Substituir o texto no Editable
-                    editable?.replace(0, inputText.length, correctedText)
-                }
-
-                // Adicionar ponto automaticamente após 3 números
-                val lastPart = parts.lastOrNull()
-                if (lastPart != null && lastPart.length == 3 && dotCount < 3) {
-                    // Se o último octeto tiver 3 dígitos e o número de pontos for menor que 3
-                    editable?.append(".")
-                }
+                // Atualizar o texto final no Editable
+                editable?.replace(0, editable.length, autoDotText)
 
                 // Reabilitar o TextWatcher
                 editTextIP.addTextChangedListener(this)
             }
+
         })
 
         // Adicionar comportamento do TextWatcher no EditText da Máscara
@@ -144,65 +122,44 @@ class MainActivity : AppCompatActivity() {
                 // Desabilitar temporariamente o TextWatcher para evitar loops recursivos
                 editTextMascara.removeTextChangedListener(this)
 
-                // Impedir que o primeiro caractere seja um ponto
-                if (inputText.startsWith(".")) {
-                    editable?.replace(0, 1, "") // Remove o ponto do início
+                // 1. Remover caracteres inválidos e garantir que o primeiro caractere não seja um ponto
+                val sanitizedInput = inputText.replace(Regex("[^0-9.]"), "").removePrefix(".")
+
+                // 2. Remover múltiplos pontos consecutivos
+                val noDoubleDots = sanitizedInput.replace(Regex("\\.{2,}"), ".")
+
+                // 3. Garantir no máximo 3 pontos
+                val dotCount = noDoubleDots.count { it == '.' }
+                val limitedDots = if (dotCount > 3) {
+                    noDoubleDots.split(".").take(4).joinToString(".")
+                } else {
+                    noDoubleDots
                 }
 
-                // Verificar e evitar dois pontos consecutivos
-                if (inputText.contains("..")) {
-                    // Encontrou dois pontos consecutivos, remover o segundo ponto
-                    val index = inputText.indexOf("..")
-                    editable?.replace(index, index + 2, ".")
+                // 4. Validar octetos (máximo 255)
+                val parts = limitedDots.split(".")
+                val correctedParts = parts.map { part ->
+                    part.toIntOrNull()?.let { if (it > 255) "255" else it.toString() } ?: ""
                 }
 
-                // Restringir a entrada para apenas números e pontos
-                if (inputText.contains(Regex("[^0-9.]"))) {
-                    editable?.replace(0, editable.length, inputText.replace(Regex("[^0-9.]"), ""))
+                // 5. Reconstruir o texto válido
+                val validText = correctedParts.joinToString(".")
+
+                // 6. Adicionar ponto automaticamente após 3 números (se válido)
+                val lastPart = correctedParts.lastOrNull()
+                val autoDotText = if (lastPart != null && lastPart.length == 3 && correctedParts.size < 4) {
+                    "$validText."
+                } else {
+                    validText
                 }
 
-                // Contar a quantidade de pontos no texto
-                val dotCount = inputText.count { it == '.' }
-
-                // Impedir mais de 3 pontos
-                if (dotCount > 3) {
-                    // Se houver mais de 3 pontos, remover o último ponto inserido
-                    editable?.replace(inputText.length - 1, inputText.length, "")
-                }
-
-                // Verificar a quantidade de octetos e impedir mais de três
-                val parts = inputText.split(".")
-                if (parts.size > 4) {
-                    // Se houver mais de 4 partes (contando com os octetos e os pontos), remova o último caractere inserido
-                    editable?.replace(inputText.length - 1, inputText.length, "")
-                }
-
-                // Verificar se algum octeto é maior que 255
-                val invalidPartIndex = parts.indexOfFirst { it.toIntOrNull()?.let { it > 255 } == true }
-                if (invalidPartIndex != -1) {
-                    // Se algum octeto for maior que 255, substituir o octeto inválido por 255
-                    val correctedText = parts.mapIndexed { index, part ->
-                        if (index == invalidPartIndex) {
-                            "255"  // Substitui o octeto inválido por 255
-                        } else {
-                            part
-                        }
-                    }.joinToString(".")
-
-                    // Substituir o texto no Editable
-                    editable?.replace(0, inputText.length, correctedText)
-                }
-
-                // Adicionar ponto automaticamente após 3 números
-                val lastPart = parts.lastOrNull()
-                if (lastPart != null && lastPart.length == 3 && dotCount < 3) {
-                    // Se o último octeto tiver 3 dígitos e o número de pontos for menor que 3
-                    editable?.append(".")
-                }
+                // Atualizar o texto final no Editable
+                editable?.replace(0, editable.length, autoDotText)
 
                 // Reabilitar o TextWatcher
                 editTextMascara.addTextChangedListener(this)
             }
+
         })
 
 
@@ -253,14 +210,14 @@ class MainActivity : AppCompatActivity() {
         firstHost = Calculator.calculateFirstHost(networkAddress)
         broadcast = Calculator.calculateBroadcast(ip, mask).toString()
         lastHost = Calculator.calculateLastHost(broadcast)
-        numberOfSubNetworks = Calculator.getNumberOfSubNetwork(mask)
+        numberOfSubNetworks = Calculator.getNumberOfSubNetwork(mask, ip)
         hostsBySubNetwork = Calculator.getNumberOfHostsBySubNetwork(mask)
         ipAvailability = Calculator.ipAvailability(ip)
         delay(3000)
     }
 
     // Função para validar o formato de um endereço IP
-    fun isValidIp(ip: String): Boolean {
+    private fun isValidIp(ip: String): Boolean {
         // Expressão regular para validar IP
         val regex = "^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})$".toRegex()
         val matchResult = regex.matchEntire(ip)
