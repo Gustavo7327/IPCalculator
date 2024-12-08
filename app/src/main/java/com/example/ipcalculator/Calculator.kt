@@ -109,24 +109,28 @@ class Calculator {
 
 
 
-        fun getNumberOfSubNetwork(mask: String): Int {
-            val originalMask = when (getIPClass(mask)) {
+        fun getNumberOfSubNetwork(mask: String, ip: String): Int {
+            // Determinar a máscara original da classe do IP
+            val ipClass = getIPClass(ip)
+            val originalMask = when (ipClass) {
                 "Classe A" -> "255.0.0.0"
                 "Classe B" -> "255.255.0.0"
                 "Classe C" -> "255.255.255.0"
-                "Classe D" -> "0"
-                "Classe E" -> "0"
-                else -> "Mascara Desconhecida"
+                else -> throw IllegalArgumentException("IP inválido para cálculo de sub-redes.")
             }
-            if (originalMask == "0") return 0
 
-            val originalMaskBinary = ipToBinary(originalMask)
-            val maskBinary = ipToBinary(mask)
+            // Obter o número de bits na máscara original e na nova máscara
+            val originalMaskBits = getNumberOfNetworkBits(originalMask)
+            val newMaskBits = getNumberOfNetworkBits(mask)
 
-            val borrowedBits = calculateBorrowedBits(originalMaskBinary, maskBinary)
+            // Calcular os bits emprestados
+            val borrowedBits = newMaskBits - originalMaskBits
+            if (borrowedBits <= 0) return 1
 
+            // Calcular o número de sub-redes
             return 2.0.pow(borrowedBits).toInt()
         }
+
 
 
         fun getNumberOfHostsBySubNetwork(mask: String): Int {
