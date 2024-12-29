@@ -1,5 +1,7 @@
 package com.example.ipcalculator
 
+import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -29,9 +31,11 @@ class MainActivity : AppCompatActivity() {
     private var hostsBySubNetwork: Int = 0
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val botaoCalcular: Button = findViewById(R.id.button)
         val progressCircle: ProgressBar = findViewById(R.id.progressBar)
